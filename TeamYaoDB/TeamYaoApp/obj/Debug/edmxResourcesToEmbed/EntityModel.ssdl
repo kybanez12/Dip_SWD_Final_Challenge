@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TeamYaoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Fixture">
+    <Key>
+      <PropertyRef Name="FixtureId" />
+    </Key>
+    <Property Name="FixtureId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="date" />
+    <Property Name="Time" Type="nvarchar" MaxLength="20" />
+    <Property Name="Venue" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="GameID" />
+      <PropertyRef Name="Payer" />
+    </Key>
+    <Property Name="GameID" Type="int" Nullable="false" />
+    <Property Name="Payer" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Amount" Type="int" />
+  </EntityType>
+  <Association Name="FK_GAME">
+    <End Role="Fixture" Type="Self.Fixture" Multiplicity="1" />
+    <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fixture">
+        <PropertyRef Name="FixtureId" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="GameID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PAYER">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="Payer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TeamYaoDBModelStoreContainer">
+    <EntitySet Name="Fixture" EntityType="Self.Fixture" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_GAME" Association="Self.FK_GAME">
+      <End Role="Fixture" EntitySet="Fixture" />
+      <End Role="Payment" EntitySet="Payment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PAYER" Association="Self.FK_PAYER">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Payment" EntitySet="Payment" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

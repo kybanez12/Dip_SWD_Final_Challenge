@@ -1,0 +1,6 @@
+C:\Users\STUDENT\source\repos\TeamYaoDB\TeamYaoDB\bin\Debug\TeamYaoDB.dacpac
+C:\Users\STUDENT\source\repos\TeamYaoDB\TeamYaoDB\bin\Debug\TeamYaoDB.dll
+C:\Users\STUDENT\source\repos\TeamYaoDB\TeamYaoDB\bin\Debug\TeamYaoDB.pdb
+C:\Users\STUDENT\source\repos\TeamYaoDB\TeamYaoDB\obj\Debug\TeamYaoDB.sqlprojAssemblyReference.cache
+C:\Users\STUDENT\source\repos\TeamYaoDB\TeamYaoDB\obj\Debug\TeamYaoDB.dll
+C:\Users\STUDENT\source\repos\TeamYaoDB\TeamYaoDB\obj\Debug\TeamYaoDB.pdb

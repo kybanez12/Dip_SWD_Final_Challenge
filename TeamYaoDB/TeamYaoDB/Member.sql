@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[Member]
+(
+	[Email] NVARCHAR (20) NOT NULL,
+	CONSTRAINT PK_MEM PRIMARY KEY (Email)
+)

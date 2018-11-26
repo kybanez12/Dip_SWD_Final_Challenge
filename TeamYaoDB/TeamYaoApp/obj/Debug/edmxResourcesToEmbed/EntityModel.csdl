@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TeamYaoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Fixture">
+    <Key>
+      <PropertyRef Name="FixtureId" />
+    </Key>
+    <Property Name="FixtureId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="Time" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Venue" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Payments" Relationship="Self.FK_GAME" FromRole="Fixture" ToRole="Payment" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Payments" Relationship="Self.FK_PAYER" FromRole="Member" ToRole="Payment" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="GameID" />
+      <PropertyRef Name="Payer" />
+    </Key>
+    <Property Name="GameID" Type="Int32" Nullable="false" />
+    <Property Name="Payer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Amount" Type="Int32" />
+    <NavigationProperty Name="Fixture" Relationship="Self.FK_GAME" FromRole="Payment" ToRole="Fixture" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_PAYER" FromRole="Payment" ToRole="Member" />
+  </EntityType>
+  <Association Name="FK_GAME">
+    <End Role="Fixture" Type="Self.Fixture" Multiplicity="1" />
+    <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fixture">
+        <PropertyRef Name="FixtureId" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="GameID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PAYER">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="Payer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TeamYaoDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Fixtures" EntityType="Self.Fixture" />
+    <EntitySet Name="Members" EntityType="Self.Member" />
+    <EntitySet Name="Payments" EntityType="Self.Payment" />
+    <AssociationSet Name="FK_GAME" Association="Self.FK_GAME">
+      <End Role="Fixture" EntitySet="Fixtures" />
+      <End Role="Payment" EntitySet="Payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PAYER" Association="Self.FK_PAYER">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Payment" EntitySet="Payments" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
